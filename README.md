@@ -75,6 +75,8 @@ polycIMS -f {name_of_your_Excel_sheet}.xlsx -gas {He/N2}
 
 5. The output should be a `.svg` file in the same folder, containing calibration curves.
 
+6. Working examples are available at https://github.com/S2MOs/polycIMS_examples, feel free to try them !
+
 ## Citing polycIMS
 If you would like to reference polycIMS, please cite the following:
 - polycIMS, version 1.0 (https://github.com/S2MOs/polycIMS)
