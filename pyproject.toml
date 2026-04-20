@@ -1,0 +1,7 @@
+[tool.setuptools]
+include-package-data = true
+[project]
+name = "polycIMS"
+version = "1.0"
+[project.scripts]
+polycIMS = "polycIMS.__main__:main"

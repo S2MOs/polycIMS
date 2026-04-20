@@ -1,0 +1,31 @@
+name: polycIMS
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - lmfit
+  - matplotlib
+  - molmass
+  - numpy
+  - openpyxl
+  - pandas
+  - pathlib
+  - pip
+  - pytables
+  - pyteomics
+  - scikit-learn
+  - scipy
+  - seaborn
+  - dask
+  - h5py
+  - hdf5plugin
+  - pymzml
+  - python
+  - snakemake<8
+  - statsmodels
+  - tabula-py
+  - pip:
+    - ripser==0.6.10
+    - git+https://github.com/pnnl/deimos.git
+    - scikit-learn

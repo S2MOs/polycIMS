@@ -1,0 +1,2 @@
+[console_scripts]
+polycIMS = polycIMS.__main__:main
