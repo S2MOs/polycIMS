@@ -5,15 +5,25 @@ polycIMS is a command-line tool for processing cIMS data and performing automate
 This package accompanies the publication **PolycIMS: Polymers for Automated Cyclic Ion Mobility Spectrometry Calibration**, Q.Duez, L. Groignet, T. Robert, F. Chirot, P. Gerbaux, J. De Winter, *Submitted*.
 
 ## Prerequisite
-polycIMS requires installing [Git](https://git-scm.com/install/windows), [Anaconda](https://www.anaconda.com/docs/getting-started/miniconda/main) and ProteoWizards' [msconvert](https://proteowizard.sourceforge.io/doc_users.html).
+polycIMS requires installing [Git](https://git-scm.com/install/windows) (62 Mo), [Miniconda](https://www.anaconda.com/download/success?reg=skipped) (128 Mo) and [ProteoWizard](https://proteowizard.sourceforge.io/download.html)(88 Mo).
 
+Anaconda could also be installed instead of Miniconda, but the file size will be much larger.
+
+**OPTIONAL BUT USEFUL :**
 For convenience, it is possible to edit Windows' Registry and open Anaconda prompts in specific working directories. Here is how to do it :
-1. Run Registry Editor (regedit.exe)
+1. Run Registry Editor (Windows button + R, then type regedit)
 2. Go to HKEY_CLASSES_ROOT > Directory > Background > shell
-3. Add a key named AnacondaPrompt and set its value to Anaconda Prompt Here
-4. Add a key under this key called command, and set its value to cmd.exe /K C:\Users\user\Anaconda3\Scripts\activate.bat change the location to wherever your Anaconda installation is located.
+3. Right click on 'shell'; New > Key; Rename the key AnacondaPrompt; Double click and set its value to Anaconda Prompt Here
+4. Under the key AnacondaPrompt, add another key called command, and set its value to
+```cmd.exe /K C:\Users\user\Anaconda3\Scripts\activate.bat```
+or change the location to wherever your Miniconda or Anaconda installation is located.
+5. Close the Registry Editor
 
 ## Installation
+
+**General note : Never add spaces ' ' in your folder or file names. This breaks the code. Always replace spaces with underscores _.**
+
+Create a directory where the code will be stored. Navigate to the directory you created and open an prompt there by right clicking + 'Anaconda Prompt Here'. Input the following commands in the prompt :
 
 1. Clone the repository and navigate into it :
 ```
@@ -27,10 +37,12 @@ conda update anaconda
 conda update -n base conda
 conda install -n base conda-libmamba-solver
 conda config --set solver libmamba
+```
+The next command might take a while (20-30 min)... This is perfectly normal. It will also download ~722 Mo of data.
+```
 conda env create -f environment.yml
 conda activate polycIMS
 ```
-The environment creation might take a while... This is perfectly normal.
 
 3. Install polycIMS :
 ```
@@ -46,10 +58,12 @@ The expected output should be :
 usage: polycIMS [-h] -f FILE -gas {He,N2}
 polycIMS: error: the following arguments are required: -f/--file, -gas/--gas
 ```
-5. Navigate into the polycIMS folder and edit `__main__.py` to include the path to `msconvert` :
+5. Navigate into the polycIMS folder and edit `__main__.py` with your favourite text editor to include the path to `msconvert` :
 ```
 mspath = "PATH/TO/MSCONVERT/msconvert.exe"
 ```
+Note : `msconvert.exe` should be located in `AppData/Local/Apps/ProteoWizard XXX/msconvert.exe`.
+Note 2 : Be careful at the orientation of the slash `/`. Backslashes `\` will not work.
 
 ## Usage
 
@@ -65,7 +79,9 @@ mspath = "PATH/TO/MSCONVERT/msconvert.exe"
 | FILE4_dt.raw  | 30 |
 | FILE5_dt.raw  | 50 |
 
-3. Open an Anaconda prompt in that directory, activate polycIMS and run the tool (replace the arguments in the `{}`) :
+Separation_time = 0 corresponds to tbe 'Bypass' experiment.
+
+3. Open an Anaconda prompt in that directory, activate polycIMS and run the tool (replace the arguments in the `{}`, including the brackets) :
 ```
 conda activate polycIMS
 polycIMS -f {name_of_your_Excel_sheet}.xlsx -gas {He/N2}
