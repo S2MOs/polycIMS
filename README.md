@@ -73,7 +73,7 @@ conda install -n base conda-libmamba-solver
 conda config --set solver libmamba
 ```
 
-**Important : ** The next command might take a while (20-30 min depending on your internet connection and computer)... This is perfectly normal. It will also download ~722 Mo of data.
+**Important:** The next command might take a while (20-30 min depending on your internet connection and computer)... This is perfectly normal. It will also download ~722 Mo of data.
 ```
 conda env create -f environment.yml
 ```
