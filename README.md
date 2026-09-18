@@ -1,55 +1,95 @@
 # polycIMS: Automated CCS Calibration for Cyclic Traveling Wave Ion Mobility Spectrometry (cIMS)
 
-polycIMS is a command-line tool for processing cIMS data and performing automated collisional cross section (CCS) calibration, using commercial poly(ethylene glycol) as calibrant. Inputs are Waters *dt.raw files from Waters Select Series instruments and outputs are calibration curves, with effective CCS values in He or N<sub>2</sub>.
+polycIMS is a command-line tool for processing cIMS data and performing automated collisional cross section (CCS) calibration, using commercial poly(ethylene glycol) as calibrant.
+
+The software takes Waters *.dt.raw files acquired on Waters Select Series instruments and produces calibration curves with effective CCS values in helium (He) or nitrogen (N<sub>2</sub>.).
 
 This package accompanies the publication **PolycIMS: Polymers for Automated Cyclic Ion Mobility Spectrometry Calibration**, Q.Duez, L. Groignet, T. Robert, F. Chirot, P. Gerbaux, J. De Winter, *Submitted*.
 
-## Prerequisite
-polycIMS requires installing [Git](https://git-scm.com/install/windows) (62 Mo), [Miniconda](https://www.anaconda.com/download/success?reg=skipped) (128 Mo) and [ProteoWizard](https://proteowizard.sourceforge.io/download.html)(88 Mo).
+## Before you start
+polycIMS has been tested on **Windows**.
 
-Anaconda could also be installed instead of Miniconda, but the file size will be much larger.
+You do **not** need to have any previous experience with Python or programming to use polycIMS. The installation mainly consists of installing three software packages and entering a few commands into an Anaconda/Miniconda Prompt.
+
+polycIMS requires the following software:
+
+1. [Git](https://git-scm.com/install/windows) — used to download the polycIMS code (~62 MB)
+2. [Miniconda](https://www.anaconda.com/download/success?reg=skipped) — used to install Python and the required Python packages (~128 MB)
+3. [ProteoWizard](https://proteowizard.sourceforge.io/download.html) — provides `msconvert.exe`, which is required to read Waters data (~88 MB)
+
+**Miniconda is recommended.** Anaconda can also be used instead of Miniconda, but the full Anaconda installation is substantially larger.
+
+> **Important:** You do not need to install Python separately. Miniconda will provide the Python environment required by polycIMS.
+> **Important - 2 :** Do not use spaces in folder or file names. If you need to separate words, use underscores.
+
+---
 
 **OPTIONAL BUT USEFUL :**
 For convenience, it is possible to edit Windows' Registry and open Anaconda prompts in specific working directories. Here is how to do it :
 1. Run Registry Editor (Windows button + R, then type regedit)
 2. Go to HKEY_CLASSES_ROOT > Directory > Background > shell
-3. Right click on 'shell'; New > Key; Rename the key AnacondaPrompt; Double click and set its value to Anaconda Prompt Here
-4. Under the key AnacondaPrompt, add another key called command, and set its value to
-```cmd.exe /K C:\Users\user\Anaconda3\Scripts\activate.bat```
-or change the location to wherever your Miniconda or Anaconda installation is located.
+3. Right click on 'shell'; New > Key; Rename the key `AnacondaPrompt`; Double click on (Default) and set value to `Anaconda Prompt Here`
+4. In the key AnacondaPrompt; Right click; New > Key; Rename the key `command`, and set its value to
+
+```cmd.exe /K PATH_TO_CONDA_INSTALLATION\activate.bat```
+
+and change the location to wherever your Miniconda or Anaconda installation is located. Mine is `C:\Users\user\Anaconda3\Scripts\activate.bat`.
+
 5. Close the Registry Editor
 
 ## Installation
 
-**General note : Never add spaces ' ' in your folder or file names. This breaks the code. Always replace spaces with underscores _.**
+> You will only need to do this once.
 
-Create a directory where the code will be stored. Navigate to the directory you created and open an prompt there by right clicking + 'Anaconda Prompt Here'. Input the following commands in the prompt :
+1. **Download polycIMS**
 
-1. Clone the repository and navigate into it :
+Create a directory where the code will be stored. Navigate to the directory you created and open a Miniconda/Anaconda prompt there. To do so, Right click + 'Anaconda Prompt Here'(if you did the optional step above).
+
+Then, input the following commands one by one in the prompt :
+
 ```
 git clone https://github.com/S2MOs/polycIMS.git
+```
+```
 cd polycIMS
 ```
 
-2. Update anaconda, create a virtual environment and activate it. Libmamba is also installed to rapidly handle the environment :
+2. **Create the polycIMS environment**
+
+The next steps create a dedicated Python environment called `polycIMS`.
+
 ```
 conda update anaconda
+```
+```
 conda update -n base conda
+```
+
+The Libmamba solver is also installed to rapidly handle the environment :
+```
 conda install -n base conda-libmamba-solver
+```
+```
 conda config --set solver libmamba
 ```
-The next command might take a while (20-30 min)... This is perfectly normal. It will also download ~722 Mo of data.
+
+**Important : ** The next command might take a while (20-30 min depending on your internet connection and computer)... This is perfectly normal. It will also download ~722 Mo of data.
 ```
 conda env create -f environment.yml
+```
+```
 conda activate polycIMS
 ```
 
-3. Install polycIMS :
+3. **Install polycIMS**
+
 ```
 pip install -e .
 ```
 
-4. Test whether you can use polycIMS with command line :
+4. **Test the installation**
+
+Test whether you can use polycIMS with command line :
 ```
 polycIMS
 ```
@@ -58,18 +98,38 @@ The expected output should be :
 usage: polycIMS [-h] -f FILE -gas {He,N2}
 polycIMS: error: the following arguments are required: -f/--file, -gas/--gas
 ```
-5. Navigate into the polycIMS folder and edit `__main__.py` with your favourite text editor to include the path to `msconvert` :
+
+This is not an installation error.
+
+It means that polycIMS has been successfully installed and is waiting for you to provide an input Excel file and the desired collision gas. The important part is that the command polycIMS is recognized.
+
+5. **Tell polycIMS where `msconvert.exe` is located
+
+`msconvert.exe` is normally located somewhere similar to `C:\Users\YourName\AppData\Local\Apps\ProteoWizard XXX\msconvert.exe`
+
+At present, this location must be entered manually in the polycIMS source code. Navigate into the polycIMS folder and edit `__main__.py` with your favourite NotePad editor.
+
+To include the path to `msconvert`, find
 ```
 mspath = "PATH/TO/MSCONVERT/msconvert.exe"
 ```
-Note : `msconvert.exe` should be located in `AppData/Local/Apps/ProteoWizard XXX/msconvert.exe`.
-Note 2 : Be careful at the orientation of the slash `/`. Backslashes `\` will not work.
+And replace the path with the actual location of `msconvert.exe`.
+
+
+> **Important:** Use forward slashes `/`. The Windows backslashes `\` will not work.
+
 
 ## Usage
 
-1. Create a folder containing Waters *dt.raw files corresponding to your calibrants, recorded at different Separate times. It is important to only use *dt.raw files containing cIMS data, and not *.raw files.
+> You must follow these steps every time you want to use polycIMS.
 
-2. In that folder, create an Excel sheet which should contain the following headers and information (**!! syntax matters for the column headers !!**) :
+1. **Prepare your calibration data**
+
+Create a folder containing Waters *dt.raw files corresponding to your calibrants, recorded at different Separate times. It is important to only use *dt.raw files containing cIMS data, and not *.raw files.
+
+2. **Prepare the Excel input file**
+
+In the same folder, create an Excel sheet which should contain the following headers and information (**!! syntax matters for the column headers !!**) :
 
 | File  | Separation_time |
 | :-------------: | :---: |
@@ -79,21 +139,35 @@ Note 2 : Be careful at the orientation of the slash `/`. Backslashes `\` will no
 | FILE4_dt.raw  | 30 |
 | FILE5_dt.raw  | 50 |
 
-Separation_time = 0 corresponds to tbe 'Bypass' experiment.
+Separation_time corresponds to the cIMS separation time associated with each spectrum. Separation_time = 0 corresponds to the 'Bypass' experiment.
 
-3. Open an Anaconda prompt in that directory, activate polycIMS and run the tool (replace the arguments in the `{}`, including the brackets) :
+3. **Run the calibration**
+
+Open an Anaconda prompt in that directory, activate polycIMS and run the tool (replace the arguments in the `{}`, including the brackets) :
 ```
 conda activate polycIMS
+```
+```
 polycIMS -f {name_of_your_Excel_sheet}.xlsx -gas {He/N2}
 ```
 
-4. Wait a bit.
+4. Wait for the process to finish.
 
 5. The output should be a `.svg` file in the same folder, containing calibration curves.
 
 6. Working examples are available at https://github.com/S2MOs/polycIMS_examples, feel free to try them !
 
+## Updating polycIMS
+If a newer version of polycIMS becomes available, the existing installation can be updated by downloading the latest version of the GitHub repository.
+
+Before updating, please check the GitHub repository for the corresponding release/version instructions.
+
 ## Citing polycIMS
 If you would like to reference polycIMS, please cite the following:
 - polycIMS, version 1.0 (https://github.com/S2MOs/polycIMS)
 - Q. Duez, L. Groignet, T. Robert, F. Chirot, P. Gerbaux, J. De Winter, **PolycIMS: Polymers for Automated Cyclic Ion Mobility Spectrometry Calibration**, *Submitted*.
+
+## If you face issues
+Please create an 'Issue' on GitHub and copy the complete error message from the Anaconda/Miniconda Prompt. If possible, please also provide the datafiles that you are trying to calibrate.
+
+This will make it much easier to identify the problem.
