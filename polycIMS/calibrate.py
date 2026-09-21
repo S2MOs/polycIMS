@@ -74,7 +74,7 @@ def make_plots(cal_df, gas):
     sns.scatterplot(data=cal_df, x="tpp_power", y="CCSref", ax=ax[1])
     ax[1].plot(x_variable_2, regr_2.predict(x_variable_2), c="red")
     ax[0].set_xlabel("$ln(t_{pp})$", fontsize=10)
-    ax[0].set_ylabel("$ln(CCS_{ref}\:\\frac{\\sqrt{\\mu}}{z})$", fontsize=10)
+    ax[0].set_ylabel(r"$ln(CCS_{ref}\:\\frac{\\sqrt{\\mu}}{z})$", fontsize=10)
     ax[1].set_xlabel("$t_{pp}\\prime$", fontsize=10)
     ax[1].set_ylabel("$CCS_{ref}$", fontsize=10)
 

@@ -28,4 +28,3 @@ dependencies:
   - pip:
     - ripser==0.6.10
     - git+https://github.com/pnnl/deimos.git
-    - scikit-learn

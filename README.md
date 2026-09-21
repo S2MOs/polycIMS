@@ -15,7 +15,7 @@ polycIMS requires the following software:
 
 1. [Git](https://git-scm.com/install/windows) — used to download the polycIMS code (~62 MB)
 2. [Miniconda](https://www.anaconda.com/download/success?reg=skipped) — used to install Python and the required Python packages (~128 MB)
-3. [ProteoWizard](https://proteowizard.sourceforge.io/download.html) — provides `msconvert.exe`, which is required to read Waters data (~88 MB)
+3. [ProteoWizard](https://proteowizard.sourceforge.io/download.html) — provides `msconvert.exe`, which is required to read Waters data and convert into Python-readable files (~88 MB)
 
 **Miniconda is recommended.** Anaconda can also be used instead of Miniconda, but the full Anaconda installation is substantially larger.
 
@@ -26,14 +26,10 @@ polycIMS requires the following software:
 
 **OPTIONAL BUT USEFUL :**
 For convenience, it is possible to edit Windows' Registry and open Anaconda prompts in specific working directories. Here is how to do it :
-1. Run Registry Editor (Windows button + R, then type regedit)
+1. Run Registry Editor (Windows button, type Registry, launch as Administrator)
 2. Go to HKEY_CLASSES_ROOT > Directory > Background > shell
 3. Right click on 'shell'; New > Key; Rename the key `AnacondaPrompt`; Double click on (Default) and set value to `Anaconda Prompt Here`
-4. In the key AnacondaPrompt; Right click; New > Key; Rename the key `command`, and set its value to
-
-```cmd.exe /K PATH_TO_CONDA_INSTALLATION\activate.bat```
-
-and change the location to wherever your Miniconda or Anaconda installation is located. Mine is `C:\Users\user\Anaconda3\Scripts\activate.bat`.
+4. In the key AnacondaPrompt; Right click; New > Key; Rename the key `command`, and set its value to ```cmd.exe /K PATH_TO_CONDA_INSTALLATION\activate.bat```. Change PATH_TO_CONDA by the location of your Miniconda or Anaconda installation is located. Mine is `C:\Users\user\Anaconda3_OR_Miniconda3\Scripts\activate.bat`. Don't forget ```cmd.exe /K``` after changing PATH_TO_CONDA.
 
 5. Close the Registry Editor
 
@@ -45,7 +41,7 @@ and change the location to wherever your Miniconda or Anaconda installation is l
 
 Create a directory where the code will be stored. Navigate to the directory you created and open a Miniconda/Anaconda prompt there. To do so, Right click + 'Anaconda Prompt Here'(if you did the optional step above).
 
-Then, input the following commands one by one in the prompt :
+Then, enter the following commands one by one into the prompt :
 
 ```
 git clone https://github.com/S2MOs/polycIMS.git
@@ -56,11 +52,8 @@ cd polycIMS
 
 2. **Create the polycIMS environment**
 
-The next steps create a dedicated Python environment called `polycIMS`.
+The next steps create a dedicated Python environment called `polycIMS`. You will need to accept terms of service associated with conda.
 
-```
-conda update anaconda
-```
 ```
 conda update -n base conda
 ```
@@ -73,7 +66,7 @@ conda install -n base conda-libmamba-solver
 conda config --set solver libmamba
 ```
 
-**Important:** The next command might take a while (20-30 min depending on your internet connection and computer)... This is perfectly normal. It will also download ~722 Mo of data.
+**Important:** The next command might take a while (20-30 min, or more depending on your internet connection and computer)... This is perfectly normal. It will also download ~722 MB of data.
 ```
 conda env create -f environment.yml
 ```
@@ -95,7 +88,7 @@ polycIMS
 ```
 The expected output should be :
 ```
-usage: polycIMS [-h] -f FILE -gas {He,N2}
+usage: polycIMS [-h] -f FILE -gas {He,N2} [-tdout {True,False}] [-out {True,False}]
 polycIMS: error: the following arguments are required: -f/--file, -gas/--gas
 ```
 
@@ -103,31 +96,30 @@ This is not an installation error.
 
 It means that polycIMS has been successfully installed and is waiting for you to provide an input Excel file and the desired collision gas. The important part is that the command polycIMS is recognized.
 
-5. **Tell polycIMS where `msconvert.exe` is located
+5. **Tell polycIMS where `msconvert.exe` is located**
 
 `msconvert.exe` is normally located somewhere similar to `C:\Users\YourName\AppData\Local\Apps\ProteoWizard XXX\msconvert.exe`
 
 At present, this location must be entered manually in the polycIMS source code. Navigate into the polycIMS folder and edit `__main__.py` with your favourite NotePad editor.
 
-To include the path to `msconvert`, find
+To include the path to `msconvert.exe`, find
 ```
 mspath = "PATH/TO/MSCONVERT/msconvert.exe"
 ```
 And replace the path with the actual location of `msconvert.exe`.
 
-
-> **Important:** Use forward slashes `/`. The Windows backslashes `\` will not work.
+**Important:** Use forward slashes `/`. The Windows backslashes `\` will not work.
 
 
 ## Usage
 
-> You must follow these steps every time you want to use polycIMS.
+> You must follow these steps each time you want to use polycIMS.
 
 1. **Prepare your calibration data**
 
 Create a folder containing Waters *dt.raw files corresponding to your calibrants, recorded at different Separate times. It is important to only use *dt.raw files containing cIMS data, and not *.raw files.
 
-2. **Prepare the Excel input file**
+2. **Prepare an Excel input file**
 
 In the same folder, create an Excel sheet which should contain the following headers and information (**!! syntax matters for the column headers !!**) :
 
@@ -143,7 +135,7 @@ Separation_time corresponds to the cIMS separation time associated with each spe
 
 3. **Run the calibration**
 
-Open an Anaconda prompt in that directory, activate polycIMS and run the tool (replace the arguments in the `{}`, including the brackets) :
+Open an Anaconda prompt in that directory (Right click + Anaconda Prompt Here), activate polycIMS and run the tool (replace the arguments in the `{}`, including the brackets) :
 ```
 conda activate polycIMS
 ```
@@ -153,12 +145,12 @@ polycIMS -f {name_of_your_Excel_sheet}.xlsx -gas {He/N2}
 
 4. Wait for the process to finish.
 
-5. The output should be a `.svg` file in the same folder, containing calibration curves.
+5. The output should be a `.svg` file in the same folder, containing the calibration curve.
 
 6. Working examples are available at https://github.com/S2MOs/polycIMS_examples, feel free to try them !
 
 ## Updating polycIMS
-If a newer version of polycIMS becomes available, the existing installation can be updated by downloading the latest version of the GitHub repository.
+If a newer version of polycIMS becomes available, the existing installation can be updated by downloading the latest version of the GitHub repository. Don't forget to edit the `msconvert.exe` path in `__main__.py` for the newest version !
 
 Before updating, please check the GitHub repository for the corresponding release/version instructions.
 

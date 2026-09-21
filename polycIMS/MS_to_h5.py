@@ -30,7 +30,7 @@ def convert(datapath, mspath):
             # Conversion from .mzML to .h5 - Needs to be done in a subprocess
             subprocess.run(
                 [
-                    "python",
+                    sys.executable,
                     "-c",
                     f"""
 import deimos

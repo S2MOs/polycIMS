@@ -31,6 +31,10 @@ def main():
         "-gas", "--gas", required=True, choices=["He", "N2"], help="Drift gas"
     )
 
+    parser.add_argument(
+        "-tpp", "--tpp", required=False, choices=["True", "False"], help="Printing tpp values ? Possible choices : True or False."
+    )
+
     args = parser.parse_args()
 
     start = time.perf_counter()
@@ -42,6 +46,10 @@ def main():
     print("Getting tpp values ...")
     # Data processing - Determining tpp
     fit_dfs = h5data_process.experiment_parser(args.file, polymer_df)
+    if args.tpp = True:
+        fit_dfs.to_excel('tpp_values.xlsx')
+    else:
+        continue
 
     print("Making the calibration curves ...")
 
