@@ -149,6 +149,14 @@ polycIMS -f {name_of_your_Excel_sheet}.xlsx -gas {He/N2}
 
 6. Working examples are available at https://github.com/S2MOs/polycIMS_examples, feel free to try them !
 
+#### Optional :
+
+It is possible to print intermediate results from polycIMS using the arguments `-tdout True` or `-out True` when calling polycIMS from the command line.
+
+`-tdout` prints the extracted arrival times for invidiual polymer ions as a function of their charge state and degree of polymerization (DP). This allows users to verify proper linearization for the determination of $t_{pp}$. The output is a series of Excel sheets called `td_data_{x}+.xlsx`.
+
+`-out` prints the calibration data, corresponding to the regression of $ln(CCS(sqrt(µ)/z)$ as a function of $ln(t_{pp})$. The output is `cal_data.xlsx`.
+
 ## Updating polycIMS
 If a newer version of polycIMS becomes available, the existing installation can be updated by downloading the latest version of the GitHub repository. Don't forget to edit the `msconvert.exe` path in `__main__.py` for the newest version !
 
