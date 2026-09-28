@@ -32,7 +32,11 @@ def main():
     )
 
     parser.add_argument(
-        "-tpp", "--tpp", required=False, choices=["True", "False"], help="Printing tpp values ? Possible choices : True or False."
+        "-tdout", "--tdout", required=False, choices=["True", "False"], help="Print td data ? Possible choices : True or False."
+    )
+
+    parser.add_argument(
+        "-out", "--out", required=False, choices=["True", "False"], help="Print output data ? Possible choices : True or False."
     )
 
     args = parser.parse_args()
@@ -46,10 +50,11 @@ def main():
     print("Getting tpp values ...")
     # Data processing - Determining tpp
     fit_dfs = h5data_process.experiment_parser(args.file, polymer_df)
-    if args.tpp = True:
-        fit_dfs.to_excel('tpp_values.xlsx')
+    if args.tdout == 'True':
+        for z in range(1, 6):
+            fit_dfs[z].to_excel(f'td_data_{z}+.xlsx')
     else:
-        continue
+        pass
 
     print("Making the calibration curves ...")
 
@@ -61,7 +66,10 @@ def main():
     print(f"Total runtime: {end - start:.2f} seconds")
     print(f"Worked with {len(cal_df)} ions")
     print(f"Calibration between {cal_df['CCSref'].min()} and {cal_df['CCSref'].max()} Å²")
-
+    if args.out == 'True':
+        cal_df.to_excel('cal_data.xlsx')
+    else:
+        pass
 
 if __name__ == "__main__":
     main()

@@ -145,17 +145,17 @@ polycIMS -f {name_of_your_Excel_sheet}.xlsx -gas {He/N2}
 
 4. Wait for the process to finish.
 
-5. The output should be a `.svg` file in the same folder, containing the calibration curve.
+5. The output should be a `.svg` file in the same folder, containing the calibration curve. Parameters derived from polycIMS can be used to determine calibrated CCS following a procedure similar to the attached Excel sheet `CCS_from_polycIMS.xlsx`.
 
 6. Working examples are available at https://github.com/S2MOs/polycIMS_examples, feel free to try them !
 
-#### Optional :
+### Optional :
 
 It is possible to print intermediate results from polycIMS using the arguments `-tdout True` or `-out True` when calling polycIMS from the command line.
 
 `-tdout` prints the extracted arrival times for invidiual polymer ions as a function of their charge state and degree of polymerization (DP). This allows users to verify proper linearization for the determination of $t_{pp}$. The output is a series of Excel sheets called `td_data_{x}+.xlsx`.
 
-`-out` prints the calibration data, corresponding to the regression of $ln(CCS(sqrt(µ)/z)$ as a function of $ln(t_{pp})$. The output is `cal_data.xlsx`.
+`-out` prints the data used for building the calibration curve. The output is an Excel sheet called `cal_data.xlsx`.
 
 ## Updating polycIMS
 If a newer version of polycIMS becomes available, the existing installation can be updated by downloading the latest version of the GitHub repository. Don't forget to edit the `msconvert.exe` path in `__main__.py` for the newest version !
@@ -169,5 +169,3 @@ If you would like to reference polycIMS, please cite the following:
 
 ## If you face issues
 Please create an 'Issue' on GitHub and copy the complete error message from the Anaconda/Miniconda Prompt. If possible, please also provide the datafiles that you are trying to calibrate.
-
-This will make it much easier to identify the problem.
