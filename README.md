@@ -157,6 +157,9 @@ It is possible to print intermediate results from polycIMS using the arguments `
 
 `-out` prints the data used for building the calibration curve. The output is an Excel sheet called `cal_data.xlsx`.
 
+## What do I do with the parameters obtained with polycIMS ?
+These parameters can be used to determine $^{TW}CCS_{N2/He}$ from cIMS measurements. Look at the Excel sheet provided with the code `CCS_from_polycIMS.xlsx` to see an example on how to do that.
+
 ## Updating polycIMS
 If a newer version of polycIMS becomes available, the existing installation can be updated by downloading the latest version of the GitHub repository. Don't forget to edit the `msconvert.exe` path in `__main__.py` for the newest version !
 
